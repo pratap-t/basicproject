@@ -1,0 +1,10 @@
+{% extends "genre/genre_base.html" %}
+
+{% block middle %}
+    <h4>Create A New Genre</h4>
+    <form method="POST" action="{%url 'genre:create' %}" id="genreForm">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Create" >
+    </form>
+{% endblock %}

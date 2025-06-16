@@ -1,0 +1,22 @@
+{% extends "genre/genre_base.html" %}
+{% block top %}
+    <h2>Genre</h2>
+    <p>Welcome to the Genre Page!</p>
+    <p>Select a Genre you would like or write about.</p>
+    {% if user.is_authenticated %}
+        <a href="{% url 'genre:create' %}" >Create New Genre!</a>
+    {% endif %}
+{% endblock %}
+
+{% block middle %}
+    <ul>
+        {% for genre in object_list %}
+            <li><h3><a href="{% url 'genre:single' slug=genre.slug %}">
+                {{ genre.name }}</a></h3>
+                {{ genre.description_html|safe }}
+                {{ genre.fellows.count }} fellow
+                {{ genre.fellows.count|pluralize }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

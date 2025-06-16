@@ -1,0 +1,18 @@
+{% extends "genre/genre_base.html" %}
+
+{% block top %}
+<h1>{{genre.name}}</h1>
+<h2> Fellow Count: {{genre.fellows.count}}</h2>
+    {% if user.isauthenticated %}
+        {% if user in genre.fellows.all %}
+        <a href="{% url 'genre:leave' slug=genre.slug %}">Disassociate</a>
+        {% else %}
+        <a href="{% url 'genre:join' slug=genre.slug %}">Associate</a>
+        {% endif %}
+    {% else %}
+    <p>Login to associate to this genre.</p>
+    {% endif %}
+{% endblock %}
+{% block middle %}
+    <h2>No posts in this genre yet!</h2>
+{% endblock %}

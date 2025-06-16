@@ -1,1 +1,1 @@
-# Website with django
+# basicproject
