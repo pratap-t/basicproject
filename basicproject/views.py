@@ -11,7 +11,7 @@ class HomePage(View):
             post_to_displayed = []
             user_logged_in = get_user(request)
             print(user_logged_in.username)
-            for item in GenreFellow.objects.all():
+            for item in Genrefellow.objects.all():
                 print(item)
                 if item.user == user_logged_in:
                     print(item.user)

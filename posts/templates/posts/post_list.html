@@ -1,0 +1,6 @@
+{% extends "posts/post_base.html" %}
+<div>
+    {% for post in post_list %}
+    {% include "posts/_post.html" %}
+    {% endfor %}
+</div>

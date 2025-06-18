@@ -1,10 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.http import Http404
 from django.urls import reverse_lazy
 from django.views import generic
-from django.views import SelectRelatedMixin
+from braces.views import SelectRelatedMixin
 from . import forms
 from . import models
 
@@ -20,7 +21,7 @@ class UserPosts(generic.ListView):
     def get_queryset(self):
         try:
             self.post_user = User.objects.prefetch_related("posts").get(
-                username_iexact = self.kwargs.get("username")
+                username__iexact = self.kwargs.get("username")
             )
         except User.DoesNotExist:
             raise Http404

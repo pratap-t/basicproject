@@ -1,0 +1,31 @@
+{% extends "genre/genre_base.html" %}
+
+{% block top %}
+<h1>{{genre.name}}</h1>
+<h2> Fellow Count: {{genre.fellows.count}}</h2>
+    {% if user.isauthenticated %}
+        {% if user in genre.fellows.all %}
+        <a href="{% url 'genre:leave' slug=genre.slug %}">Disassociate</a>
+        {% else %}
+        <a href="{% url 'genre:join' slug=genre.slug %}">Associate</a>
+        {% endif %}
+    {% else %}
+    <p>Login to associate to this genre.</p>
+    {% endif %}
+{% endblock %}
+{% block middle %}
+    {% for post in post_list %}
+    <h3><a href="{% url 'posts:single' username=post.user.username pk=post.pk %}">
+        {{ post.name }}</a></h3>
+    <span ><a href="{% url 'posts:for_user' username=post.user.username %}">
+        @{{ post.user.username }}</a></span>
+    <time class="time">{{ post.created_at }}</a></time>
+    <p> {{ post.content }}</p>
+    {% if user.is_authenticated and post.user == user and not hide_delete %}
+        <a href="{% url 'posts:delete' pk=post.pk %}" title="delete">
+            <span class="text-danger icon-label">Delete</span>
+        </a>
+    {% endif %}
+    {% empty %}
+    {% endfor %}
+{% endblock %}

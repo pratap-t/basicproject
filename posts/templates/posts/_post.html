@@ -1,0 +1,17 @@
+<h3>
+    <a href="{% url 'posts:single' username=post.user.username pk=post.pk %}"></a>
+        {{ post.name }}</h3>
+    <span >
+        <a href="{% url 'posts:for_user' uername=post.user.username %}">
+            @{{ post.user.username }}</a></span>
+    <time class="time">{{ post.created_at }}</time>
+            {% if post.genre %}
+                <span>in <a href="{% url 'genre:single' slug=post.genre.slug %}">
+                    {{ post.genre.name }}</a></span>
+                <p>{{ post.content }}</p>
+            {% endif %}
+            {% if user.is_authenticated and post.user == user and not hide_delete %}
+                    <a href="{% url 'posts:delete' pk=post.pk %}" title="delete">
+                        <span class="text-danger icon-label">Delete</span>
+                    </a>
+            {% endif %}
