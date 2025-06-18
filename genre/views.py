@@ -6,18 +6,26 @@ from django.contrib.auth.mixins import (
 
 from django.urls import reverse
 from django.db import IntegrityError
-from django.shortcuts import get_object_or_404
-from django.views import generic
+from django.shortcuts import get_object_or_404, render
+from django.views import generic, View
 from . models import Genre, Genrefellow
 from . import models
+from posts.models import Post
 # Create your views here.
 
 class CreateGenre(LoginRequiredMixin, generic.CreateView):
     fields = ("name", "description")
     model = Genre
 
-class SingleGenre(generic.DetailView) :
-    model = Genre
+class SingleGenre(View) :
+    def get(self, request, *args, **kwargs):
+        genre_opened = get_object_or_404(Genre, slug=self.kwargs.get("slug"))
+        post_to_displayed = []
+        for item in Post.objects.all():
+            if str(item.genre) == str(genre_opened.name):
+                post_to_displayed.append(item)
+        return render(request, 'genre/genre_details.html',
+                      {'post_list': post_to_displayed, 'genre': genre_opened})
 
 class ListGenre(generic.ListView) :
     model = Genre
